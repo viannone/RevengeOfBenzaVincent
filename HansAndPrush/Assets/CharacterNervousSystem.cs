@@ -10,7 +10,7 @@ public class CharacterNervousSystem : MonoBehaviour {
 	private CharacterMovementInterface cmi;
 	public BoxCollider2D groundCollider;
 	public AttackBank attackBank;
-
+	//code
 	//public for debug reasons only
 	private float xInput;
 	private float yInput;
