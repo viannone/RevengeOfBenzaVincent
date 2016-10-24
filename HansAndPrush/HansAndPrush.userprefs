@@ -1,8 +1,10 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/CharacterNervousSystem.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Gui/Revolver.cs">
     <Files>
-      <File FileName="Assets/CharacterNervousSystem.cs" Line="68" Column="1" />
+      <File FileName="Assets/Characters/AttackBank.cs" Line="54" Column="12" />
+      <File FileName="Assets/Characters/CharacterNervousSystem.cs" Line="66" Column="24" />
+      <File FileName="Assets/Gui/Revolver.cs" Line="6" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

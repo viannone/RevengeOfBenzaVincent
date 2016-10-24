@@ -85,12 +85,13 @@
 -define:UNITY_EDITOR_64
 -define:UNITY_EDITOR_OSX
 -define:UNITY_TEAM_LICENSE
-'Assets/Attack.cs'
-'Assets/AttackBank.cs'
 'Assets/Cameras/SceneCamera.cs'
-'Assets/CharacterNervousSystem.cs'
 'Assets/Characters/ArtificialBrain.cs'
+'Assets/Characters/Attack.cs'
+'Assets/Characters/AttackBank.cs'
 'Assets/Characters/CharacterBrain.cs'
 'Assets/Characters/CharacterMovementInterface.cs'
+'Assets/Characters/CharacterNervousSystem.cs'
+'Assets/Gui/Revolver.cs'
 -r:'/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Runtime.Serialization.dll'
 -r:'/Applications/Unity/Unity.app/Contents/Mono/lib/mono/unity/System.Xml.Linq.dll'
