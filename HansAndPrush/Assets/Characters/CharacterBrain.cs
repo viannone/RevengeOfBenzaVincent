@@ -7,6 +7,8 @@ public class CharacterBrain : MonoBehaviour {
 	public float xInput;
 	public float yInput;
 	public float aInput;
+	public float pauseInput;
+
 	public CharacterNervousSystem cns;
 	public void Start() {
 		cns = GetComponent<CharacterNervousSystem> ();

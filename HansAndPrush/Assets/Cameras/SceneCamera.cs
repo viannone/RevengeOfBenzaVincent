@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class SceneCamera : MonoBehaviour {
 	//listening to even flow
@@ -12,7 +13,11 @@ public class SceneCamera : MonoBehaviour {
 	public float cameraBobY;
 	public float cameraBobXTime;
 	public float cameraBobYTime;
-
+	public float pauseInput = 0.0f;
+	public bool paused = false;
+	public bool pauseButtonDown = false;
+	public float timeScale = 0.0f;
+	public Image pauseScreen;
 	//these variables are public for debugging purposes
 	public Transform targetObject;
 
@@ -22,6 +27,40 @@ public class SceneCamera : MonoBehaviour {
 		if (targetObject != null) {
 			StartCoroutine ("MoveCamera");
 		}
+		StartCoroutine ("PauseManage");
+	}
+	public IEnumerator PauseManage(){
+		while (true) {
+			pauseInput = Input.GetAxisRaw ("Pause");
+			if (pauseInput > 0 && pauseButtonDown == false) {
+				TogglePause ();
+				pauseButtonDown = true;
+			}
+			if (pauseInput == 0) {
+				pauseButtonDown = false;
+			}
+			yield return new WaitForSecondsRealtime (0.1f);
+		}
+	}
+
+	public void TogglePause(){
+		paused = !paused;
+		if (paused) {
+			timeScale = Time.timeScale;
+			ShowPauseScreen ();
+			Time.timeScale = 0.0f;
+		} else {
+			HidePauseScreen ();
+			Time.timeScale = timeScale;
+		}
+		Debug.Log ("Pause Toggled");
+	}
+
+	public void ShowPauseScreen(){
+		pauseScreen.gameObject.SetActive (true);
+	}
+	public void HidePauseScreen(){
+		pauseScreen.gameObject.SetActive (false);
 	}
 
 	public IEnumerator MoveCamera(){
