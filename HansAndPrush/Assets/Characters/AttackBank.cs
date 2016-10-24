@@ -47,11 +47,11 @@ public class AttackBank : MonoBehaviour {
 	public float yellowEffectAmount;
 	public float yellowEffectTime;
 
-	int[] damage;
-	bool[] effectBool;
-	float[] effectAmount;
-	float[] effectTime;
-	void Start(){
+	public int[] damage;
+	public bool[] effectBool;
+	public float[] effectAmount;
+	public float[] effectTime;
+	void Awake(){
 		damage = new int[] {
 		blueDamage,
 		redDamage,
@@ -94,11 +94,20 @@ public class AttackBank : MonoBehaviour {
 	};
 	}
 
-	public void NextAttack(Transform target){
+	public virtual void NextAttack(Transform target){
 		Attack.CreateAttack (target, attacks [currentAttack], damage[currentAttack], effectBool[currentAttack], effectAmount[currentAttack], effectTime[currentAttack]);
 		currentAttack++;
 		if (currentAttack == attacks.Length) {
 			currentAttack = 0;
 		}
+	}
+	public void SetAttack1(int i){
+		attacks[0] = i;
+	}
+	public void SetAttack2(int i){
+		attacks[1] = i;
+	}
+	public void SetAttack3(int i){
+		attacks[2] = i;
 	}
 }
