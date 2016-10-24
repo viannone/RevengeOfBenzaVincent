@@ -13,7 +13,7 @@ public class SceneCamera : MonoBehaviour {
 	public float cameraBobY;
 	public float cameraBobXTime;
 	public float cameraBobYTime;
-	public float pauseInput = 0.0f;
+	public int pauseInput = 0;
 	public bool paused = false;
 	public bool pauseButtonDown = false;
 	public float timeScale = 0.0f;
@@ -31,7 +31,7 @@ public class SceneCamera : MonoBehaviour {
 	}
 	public IEnumerator PauseManage(){
 		while (true) {
-			pauseInput = Input.GetAxisRaw ("Pause");
+			pauseInput = (int) Input.GetAxisRaw ("Pause");
 			if (pauseInput > 0 && pauseButtonDown == false) {
 				TogglePause ();
 				pauseButtonDown = true;
@@ -53,7 +53,6 @@ public class SceneCamera : MonoBehaviour {
 			HidePauseScreen ();
 			Time.timeScale = timeScale;
 		}
-		Debug.Log ("Pause Toggled");
 	}
 
 	public void ShowPauseScreen(){
