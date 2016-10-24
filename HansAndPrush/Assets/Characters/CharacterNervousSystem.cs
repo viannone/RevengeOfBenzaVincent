@@ -10,7 +10,7 @@ public class CharacterNervousSystem : MonoBehaviour {
 	private CharacterMovementInterface cmi;
 	public BoxCollider2D groundCollider;
 	public AttackBank attackBank;
-
+	//code
 	//public for debug reasons only
 	private float xInput;
 	private float yInput;
@@ -18,7 +18,7 @@ public class CharacterNervousSystem : MonoBehaviour {
 	public Transform target;
 
 	//Billboard
-	public Color defaultColor = Color.red;
+	public Color defaultColor = Color.green;
 	public Text billboard;
 	public float xSpeed;
 	public float ySpeed;
@@ -26,8 +26,7 @@ public class CharacterNervousSystem : MonoBehaviour {
 	public bool isJumpingCharacter;
 	public float jumpRefreshTime = 1.0f;
 	public float jumpRefreshTimer = 0.0f;
-	public float attackRefreshTime = 1.0f;
-	public float attackRefreshTimer = 0.0f;
+	public bool attackPrimed = true;
 	//effects
 	public float xSpeedModifier = 1.0f;
 	public float ySpeedModifier = 1.0f;
@@ -36,7 +35,6 @@ public class CharacterNervousSystem : MonoBehaviour {
 	[Header("COLORS: Blue 0, R 1, G 2, P 3, W 4, Black 5, Br 6, Y7")]
 	int color;
 	int colorWeakness;
-	public string[] attacks = new string[3];
 	float colorDamageModifier = 1.0f;
 	public float health = 1000.0f;
 
@@ -65,6 +63,7 @@ public class CharacterNervousSystem : MonoBehaviour {
 	}
 	public void AttackTarget(){
 		Debug.Log ("Attacking: " + target);
+		attackPrimed = false;
 		attackBank.NextAttack (target);
 	}
 	public IEnumerator ProcessInput(){
@@ -78,14 +77,12 @@ public class CharacterNervousSystem : MonoBehaviour {
 				}
 			}
 			}if (aInput > 0) {
-				if (attackRefreshTimer >= attackRefreshTime) {
+				if (attackPrimed) {
 					AttackTarget ();
-					attackRefreshTimer = 0.0f;
 				}
 			}
 			float t = Time.deltaTime;
 			jumpRefreshTimer += t;
-			attackRefreshTimer += t;
 			yield return new WaitForFixedUpdate ();
 		}
 	}
