@@ -52,7 +52,11 @@
      <Compile Include="Assets\Characters\CharacterBrain.cs" />
      <Compile Include="Assets\Characters\CharacterMovementInterface.cs" />
      <Compile Include="Assets\Characters\CharacterNervousSystem.cs" />
+     <Compile Include="Assets\ColorSwitch.cs" />
+     <Compile Include="Assets\Colorize.cs" />
      <Compile Include="Assets\Gui\Revolver.cs" />
+     <Compile Include="Assets\ShadowFollow.cs" />
+     <Compile Include="Assets\ShadowFollowRotation.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
