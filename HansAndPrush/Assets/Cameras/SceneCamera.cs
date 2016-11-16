@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class SceneCamera : MonoBehaviour {
 	//listening to even flow
+	Transform hans;
 	Vector2 currentVel;
 	public int cameraDistance;
 	public float maxSpeed;
@@ -24,6 +25,7 @@ public class SceneCamera : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		hans = GameObject.FindGameObjectWithTag ("Player").transform;
 		if (targetObject != null) {
 			StartCoroutine ("MoveCamera");
 		}
@@ -69,26 +71,29 @@ public class SceneCamera : MonoBehaviour {
 		float theta;
 		float distance;
 		while (true) {
-		pos = transform.position;
-		targetPos = targetObject.position;
+			try {
+				pos = transform.position;
+				targetPos = targetObject.position;
 
-			if (cameraBob) {
-				time = Time.timeSinceLevelLoad;
-				theta = time / cameraBobYTime;
-				distance = cameraBobY * Mathf.Sin(theta);
-				targetPos.y += distance;
+				if (cameraBob) {
+					time = Time.timeSinceLevelLoad;
+					theta = time / cameraBobYTime;
+					distance = cameraBobY * Mathf.Sin (theta);
+					targetPos.y += distance;
 
-			 	theta = time / cameraBobXTime;
-				distance = cameraBobX * Mathf.Sin(theta);
-				targetPos.x += distance;
+					theta = time / cameraBobXTime;
+					distance = cameraBobX * Mathf.Sin (theta);
+					targetPos.x += distance;
+				}
+
+				Vector2 intermediary = Vector2.SmoothDamp (pos, (Vector2)targetPos, ref currentVel, targetTime, maxSpeed);
+				transform.position = new Vector3 (intermediary.x, intermediary.y, cameraDistance);
+			} catch (MissingReferenceException) {
+				SetTargetObject (hans);
 			}
-
-		Vector2 intermediary = Vector2.SmoothDamp (pos, (Vector2) targetPos, ref currentVel, targetTime, maxSpeed);
-		transform.position = new Vector3 (intermediary.x, intermediary.y, cameraDistance);
-			yield return new WaitForEndOfFrame();
+			yield return new WaitForEndOfFrame ();
 		}
 	}
-
 	public void SetTargetObject(Transform t){
 		StopCoroutine ("MoveCamera");
 		targetObject = t;

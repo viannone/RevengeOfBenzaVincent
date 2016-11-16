@@ -2,36 +2,37 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Revolver : AttackBank{
-	public float speed;
+public class Revolver : AttackTransmitter {
+	public bool primed = true;
+	public float speed = 1.0f;
+	public Transform prush;
 
-	public class Slot{
-		bool occupied = true;
-		Image i;
-		int color;
-	}
-
-	Slot slot1;
-	Slot slot2;
-	Slot slot3;
-
-	CharacterNervousSystem cns;
 	void Start(){
-		cns = GameObject.FindGameObjectWithTag ("Player").GetComponent<CharacterNervousSystem> ();
+		prush = GameObject.FindGameObjectWithTag ("Prush").transform;
 	}
 
-	void PrimeShot(){
-		cns.attackPrimed = true;
-		Debug.Log (cns.attackPrimed);
+	public new void Attack(Transform target){
+		attackTarget = target;
+		if (primed) {
+			primed = false;
+			NextAttack ();
+		}
+	}
+	public new void Attack(){
+		if (primed) {
+			primed = false;
+			NextAttack ();
+		}
 	}
 
-	public override void NextAttack(Transform target){
-		Attack.CreateAttack (target, attacks [currentAttack], damage[currentAttack], effectBool[currentAttack], effectAmount[currentAttack], effectTime[currentAttack]);
+
+	public new void NextAttack(){
+		StartCoroutine ("Revolve");
+		CreateAttack (currentAttack, prush);
 		currentAttack++;
-		if (currentAttack == attacks.Length) {
+		if (currentAttack >= attackPrefabs.Length) {
 			currentAttack = 0;
 		}
-		StartCoroutine("Revolve");
 	}
 
 	public IEnumerator Revolve(){
@@ -52,7 +53,11 @@ public class Revolver : AttackBank{
 			yield return null;
 		}
 		transform.eulerAngles = new Vector3(0, 0, newAngle);
-		PrimeShot ();
+		primed = true;
+	}
+
+	public void SetSpeed(float s){
+		speed = s;
 	}
 
 }
