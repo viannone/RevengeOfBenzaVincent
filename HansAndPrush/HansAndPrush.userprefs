@@ -1,10 +1,21 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Gui/Revolver.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/RigidbodyInterface.cs">
     <Files>
-      <File FileName="Assets/Characters/AttackBank.cs" Line="54" Column="12" />
-      <File FileName="Assets/Characters/CharacterNervousSystem.cs" Line="66" Column="24" />
-      <File FileName="Assets/Gui/Revolver.cs" Line="6" Column="14" />
+      <File FileName="Assets/DamageInput.cs" Line="55" Column="2" />
+      <File FileName="Assets/Gui/Revolver.cs" Line="1" Column="1" />
+      <File FileName="Assets/Characters/AttackBank.cs" Line="113" Column="5" />
+      <File FileName="Assets/Cameras/SceneCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets/ShadowFollowRotation.cs" Line="1" Column="1" />
+      <File FileName="Assets/ShadowFollow.cs" Line="1" Column="1" />
+      <File FileName="Assets/Colorize.cs" Line="1" Column="1" />
+      <File FileName="Assets/ColorSwitch.cs" Line="1" Column="1" />
+      <File FileName="Assets/Characters/Attack.cs" Line="28" Column="21" />
+      <File FileName="Assets/RigidbodyInterface.cs" Line="34" Column="48" />
+      <File FileName="Assets/CentralNervousSystem.cs" Line="54" Column="2" />
+      <File FileName="Assets/Brain.cs" Line="1" Column="1" />
+      <File FileName="Assets/SimpleTargetFollowDeleteMe.cs" Line="35" Column="1" />
+      <File FileName="Assets/FireBall.cs" Line="8" Column="39" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
