@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public class HitScan : Attack {
+public class HitScan : AttackPrefab {
 	public RaycastHit2D[] enemiesHit;
 	public int maxLength = 100;
 	public Vector2 pos1;
@@ -24,7 +24,7 @@ public class HitScan : Attack {
 		particleEffectChild.rotation = Quaternion.LookRotation (pos2, Vector3.forward);
 		enemiesHit = Physics2D.RaycastAll (pos1, rotation, maxLength, layerCheck);
 		foreach(RaycastHit2D enemy in enemiesHit){
-			enemy.transform.GetComponent<DamageInput> ().TakeHit (this);
+			enemy.transform.GetComponent<DamageInput> ().TakeHit (attack);
 		}
 		StartCoroutine(CountDownToSelfDestruct(2));
 	}

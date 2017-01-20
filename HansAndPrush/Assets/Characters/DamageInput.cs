@@ -4,7 +4,7 @@ using System.Collections;
 public class DamageInput : MonoBehaviour {
 
 	CentralNervousSystem cns;
-	Attack.AttackColor colorWeakness;
+	AttackColor colorWeakness;
 	float colorDamageMultiplier = 1.0f;
 	// Use this for initialization
 	void Start () {
@@ -24,18 +24,18 @@ public class DamageInput : MonoBehaviour {
 			cns.PostMessage ("Hit: " + incomingAttack.value);
 		}
 
-		if (incomingAttack.effect) {//if there's an EFFECT that comes with the damage
-			switch (incomingAttack.attackColor) {
-			case Attack.AttackColor.RED:
-				StartCoroutine (DOT (incomingAttack.effectValue, incomingAttack.effectTime));
+		foreach (Effects e in incomingAttack.effects) {//if there's an EFFECT that comes with the damage
+			switch (e.effect) {
+			case Effect.DOT:
+				StartCoroutine (DOT (e.effectValue, e.effectTime));
 				break;
-			case Attack.AttackColor.BLUE:
-				StartCoroutine (SLOW (incomingAttack.effectValue, incomingAttack.effectTime));
+			case Effect.SLOW:
+				StartCoroutine (SLOW (e.effectValue, e.effectTime));
 				break;
 			}
 		}
 	}
-	public IEnumerator DOT(float effectValue, int effectTime){
+	public IEnumerator DOT(float effectValue, float effectTime){
 		int count = 0;
 		while (count < effectTime) {
 			yield return new WaitForSeconds(1.0f);
@@ -44,7 +44,7 @@ public class DamageInput : MonoBehaviour {
 			count++;
 		}
 	}
-	public IEnumerator SLOW(float effectValue, int effectTime){
+	public IEnumerator SLOW(float effectValue, float effectTime){
 		float timer = 0.0f;
 		float oldSpeed = cns.GetSpeed ();
 		float amount = effectValue * oldSpeed;

@@ -5,7 +5,7 @@ using System.Collections;
 [RequireComponent (typeof (CentralNervousSystem))]
 
 public class RigidbodyInterface : MonoBehaviour {
-
+	CentralNervousSystem cns;
 	Rigidbody2D rigi;
 
 	float xInput = 0.0f; //scaler --> -1 hard left, 1 hard right
@@ -28,8 +28,12 @@ public class RigidbodyInterface : MonoBehaviour {
 	private Coroutine yAccelCoroutine;
 
 	Vector2 velocity;
-	void Start(){
+	void Awake(){
 		rigi = GetComponent<Rigidbody2D> ();
+		cns = GetComponent<CentralNervousSystem> ();
+	}
+	void Start(){
+
 		if (isJumpingCharacter) {
 			YaccelerationTime = 0.0f;
 		} else {
@@ -72,7 +76,7 @@ public class RigidbodyInterface : MonoBehaviour {
 
 	public void SetyInput(float f){
 		if (isJumpingCharacter) {
-			if (jumpPrimed && f > 0) {
+			if (cns.grounded && jumpPrimed && f > 0) {
 				StartCoroutine ("PrimeJump");
 				rigi.velocity = new Vector2 (rigi.velocity.x, rigi.velocity.y + maxVerticalSpeed);
 				}
