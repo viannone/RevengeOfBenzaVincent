@@ -7,12 +7,8 @@ public class AttackTransmitter : MonoBehaviour {
 	public int currentAttack;
 	public int coolDownTime;
 	public float timer = 0.0f;
-	public Transform[] attackPrefabs;
-	public Attack.AttackColor[] colors;
-	public int[] values;
-	public bool[] effects;
-	public float[] effectValues;
-	public int[] effectTimes;
+
+	public Attack[] attacks;
 
 	public void Attack(Transform target){
 		attackTarget = target;
@@ -33,26 +29,17 @@ public class AttackTransmitter : MonoBehaviour {
 	public void NextAttack(){
 		CreateAttack (currentAttack);
 		currentAttack++;
-		if (currentAttack >= attackPrefabs.Length) {
+		if (currentAttack >= attacks.Length) {
 			currentAttack = 0;
 		}
 	}
 
 	public void CreateAttack(int i){
-		Transform a = (Transform) Instantiate (attackPrefabs [i], transform.position, Quaternion.identity);
-		if (attackTarget != null) {
-			a.GetComponent<Attack> ().SetUp (transform, colors [i], values [i], effects [i], effectValues [i], effectTimes [i], attackTarget);
-		} else {
-			a.GetComponent<Attack> ().SetUp (transform, colors [i], values [i], effects [i], effectValues [i], effectTimes [i]);
-		}
+		Transform a = (Transform) Instantiate (attacks [i].prefab, transform.position, Quaternion.identity);
+		a.GetComponent<AttackPrefab> ().SetUp(transform, attackTarget, attacks[i]);
 	}
-
-	public void CreateAttack(int i, Transform origin){
-		Transform a = (Transform) Instantiate (attackPrefabs [i], transform.position, Quaternion.identity);
-		if (attackTarget != null) {
-			a.GetComponent<Attack> ().SetUp (origin, colors [i], values [i], effects [i], effectValues [i], effectTimes [i], attackTarget);
-		} else {
-			a.GetComponent<Attack> ().SetUp (origin, colors [i], values [i], effects [i], effectValues [i], effectTimes [i]);
-		}
+	public void CreateAttack(int i, Transform altOrigin){
+		Transform a = (Transform) Instantiate (attacks [i].prefab, altOrigin.position, Quaternion.identity);
+		a.GetComponent<AttackPrefab> ().SetUp(altOrigin, attackTarget, attacks[i]);
 	}
 }

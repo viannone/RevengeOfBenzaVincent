@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Projectile : Attack {
+public class Projectile : AttackPrefab {
 	Rigidbody2D rigi;
-	public static int maxSpeed = 20;
+	public int maxSpeed = 20;
 	public void Start(){
 		transform.position = origin.position;
 		rigi = GetComponent<Rigidbody2D> ();
@@ -22,8 +22,9 @@ public class Projectile : Attack {
 	public void OnTriggerEnter2D(Collider2D other){
 		DamageInput di = other.gameObject.GetComponent<DamageInput> ();
 		if (di != null) {
-			di.TakeHit (this);
+			di.TakeHit (attack);
 			SelfDestruct ();
 		}
 	}
+
 }

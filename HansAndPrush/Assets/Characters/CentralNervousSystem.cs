@@ -7,12 +7,13 @@ using UnityEngine.UI;
 public class CentralNervousSystem : MonoBehaviour {
 
 	RigidbodyInterface ri;
-	Brain b;
 	public int health = 100;
-	public Attack.AttackColor colorWeakness;
+	public AttackColor colorWeakness;
 	public float colorDamageMultiplier = 1.0f;
 	public DeathScript deathScript;
 	public Floater billboard;
+	public GroundCollider groundCollider;
+	public bool grounded = true;
 
 	public float xInput;
 	public float yInput;
@@ -22,7 +23,6 @@ public class CentralNervousSystem : MonoBehaviour {
 	}
 
 	void Start(){
-		b = GetComponent<Brain>();
 		deathScript = GetComponent<DeathScript> ();
 	}
 
@@ -38,7 +38,7 @@ public class CentralNervousSystem : MonoBehaviour {
 			Die ();
 		}
 	}
-	public void ReduceHealth(float h, Attack.AttackColor color){
+	public void ReduceHealth(float h, AttackColor color){
 		health -= (int) h;
 		if(health <= 0){
 			Die ();

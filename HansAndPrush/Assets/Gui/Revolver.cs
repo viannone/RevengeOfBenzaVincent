@@ -6,8 +6,12 @@ public class Revolver : AttackTransmitter {
 	public bool primed = true;
 	public float speed = 1.0f;
 	public Transform prush;
+	public static Revolver revolver;
 
-	void Start(){
+
+
+	public void Awake(){
+		revolver = this;
 		prush = GameObject.FindGameObjectWithTag ("Prush").transform;
 	}
 
@@ -30,7 +34,7 @@ public class Revolver : AttackTransmitter {
 		StartCoroutine ("Revolve");
 		CreateAttack (currentAttack, prush);
 		currentAttack++;
-		if (currentAttack >= attackPrefabs.Length) {
+		if (currentAttack >= attacks.Length) {
 			currentAttack = 0;
 		}
 	}

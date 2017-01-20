@@ -15,10 +15,13 @@ public class SceneCamera : MonoBehaviour {
 	public float cameraBobXTime;
 	public float cameraBobYTime;
 	public int pauseInput = 0;
+	public int selectInput = 0;
 	public bool paused = false;
 	public bool pauseButtonDown = false;
+	public bool selectButtonDown = false;
 	public float timeScale = 0.0f;
 	public Image pauseScreen;
+	public Image selectScreen;
 	//these variables are public for debugging purposes
 	public Transform targetObject;
 
@@ -34,22 +37,29 @@ public class SceneCamera : MonoBehaviour {
 	public IEnumerator PauseManage(){
 		while (true) {
 			pauseInput = (int) Input.GetAxisRaw ("Pause");
+			selectInput = (int)Input.GetAxisRaw ("Select");
 			if (pauseInput > 0 && pauseButtonDown == false) {
-				TogglePause ();
+				TogglePause (pauseScreen);
 				pauseButtonDown = true;
+			} else if (selectInput > 0 && selectButtonDown == false) {
+				TogglePause (selectScreen);
+				selectButtonDown = true;
 			}
 			if (pauseInput == 0) {
 				pauseButtonDown = false;
 			}
-			yield return new WaitForSecondsRealtime (0.1f);
+			if (selectInput == 0) {
+				selectButtonDown = false;
+			}
+			yield return null;
 		}
 	}
 
-	public void TogglePause(){
+	public void TogglePause(Image screen){
 		paused = !paused;
 		if (paused) {
 			timeScale = Time.timeScale;
-			ShowPauseScreen ();
+			ShowPauseScreen (screen);
 			Time.timeScale = 0.0f;
 		} else {
 			HidePauseScreen ();
@@ -57,11 +67,12 @@ public class SceneCamera : MonoBehaviour {
 		}
 	}
 
-	public void ShowPauseScreen(){
-		pauseScreen.gameObject.SetActive (true);
+	public void ShowPauseScreen(Image screen){
+		screen.gameObject.SetActive (true);
 	}
 	public void HidePauseScreen(){
 		pauseScreen.gameObject.SetActive (false);
+		selectScreen.gameObject.SetActive (false);
 	}
 
 	public IEnumerator MoveCamera(){
