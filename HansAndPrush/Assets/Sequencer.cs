@@ -7,6 +7,9 @@ public class Sequencer : MonoBehaviour {
 	public RigidbodyInterface ri;
 	public SpriteRenderer r;
 
+	public int run;
+	public int walk;
+
 	public void Awake(){
 		cns = gameObject.GetComponent<CentralNervousSystem> ();
 		r = gameObject.GetComponent<SpriteRenderer> ();
@@ -16,12 +19,15 @@ public class Sequencer : MonoBehaviour {
 	public void Start(){
 		currentSequence.Play ();
 	}
-		
-	public Seq walk;
-	public Seq run;
-	public Seq whatever;
-
+	public Seq[] allSequences;
 	public Seq currentSequence;
+
+	public void MapSequences(){
+		allSequences = GetComponents<Seq> ();
+		for (int i = 0; i < allSequences.Length; i++) {
+			Debug.Log ("Sequence " + i + " is " + allSequences [i].folder);
+		}
+	}
 
 	public void SetCurrentSequence(Seq s){
 		StopCoroutine ("ManageAnimations");
@@ -35,13 +41,15 @@ public class Sequencer : MonoBehaviour {
 		//find transition frames to s
 		Pivot[][] pivots = currentSequence.pivots;
 		int count = 0;
-		for (int type = 0; type < pivots.Length; type++) {
-			if (pivots [type] [0].toSeq == s) {
-				for (int pivot = 0; pivot < pivots [type].Length; pivot++) {
-					currentSequence.TerminateFrames (pivots [type] [pivot]);
-					count++;
+		if (pivots != null) {
+			for (int type = 0; type < pivots.Length; type++) {
+				if (allSequences[pivots [type] [0].toSeq] == s) {
+					for (int pivot = 0; pivot < pivots [type].Length; pivot++) {
+						currentSequence.TerminateFrames (pivots [type] [pivot]);
+						count++;
+					}
+					break;
 				}
-				break;
 			}
 		}
 		if(count == 0){
@@ -54,7 +62,6 @@ public class Sequencer : MonoBehaviour {
 	public IEnumerator ManageAnimations(){
 		int maxFrameRate = currentSequence.maxFrameRate;
 		int minFrameRate = currentSequence.minFrameRate;
-		bool speedSensitive = currentSequence.speedSensitive;
 		float oldX = ri.currentXvelocity;
 		while (true) {
 			float xVel = ri.currentXvelocity;
@@ -66,12 +73,12 @@ public class Sequencer : MonoBehaviour {
 			}
 
 			if ((oldX < 0 && xVel > 0)) {
-				Cue (walk);
+				Cue (allSequences[walk]);
 			} else if ((oldX > 0 && xVel < 0)) {
-				Cue (run);
+				Cue (allSequences[run]);
 			}
 				oldX = xVel;
-			if (speedSensitive) {
+			if (currentSequence.speedSensitive) {
 				int frameRate = Mathf.RoundToInt ((Mathf.Abs (ri.currentXvelocity / ri.maxHorizontalSpeed) * maxFrameRate));
 				if (frameRate < minFrameRate) {
 					frameRate = minFrameRate;

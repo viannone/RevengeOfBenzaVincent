@@ -22,7 +22,7 @@ public class Seq : MonoBehaviour {
 	public void Awake(){
 		sr = GetComponent<SpriteRenderer> ();
 		sequencer = GetComponent<Sequencer> ();
-		CompileTransitions ();
+		//CompileTransitions ();
 	}
 	public void Play(){
 		StartCoroutine (IterateFrames ());
@@ -47,6 +47,7 @@ public class Seq : MonoBehaviour {
 
 	public void CompileTransitions(){
 		Debug.Log ("Beginning... This may take a while");
+
 		List<List<Pivot>> tempPivotList = new List<List<Pivot>> ();
 		//initialize at least one list
 		tempPivotList.Add (new List<Pivot> ());
@@ -81,11 +82,23 @@ public class Seq : MonoBehaviour {
 				pivots [type] [pivot] = tempPivotList [type] [pivot];
 			}
 		}
-		Debug.Log ("Phew, finally done. We have pivots going to " + pivots.Length + " different sequences");
-		for (int type = 0; type < pivots.Length; type++) {
-			Debug.Log ("<color=red>Type: " + type + ": " + pivots [type] [0].toSeq.folder + "</color>");
-			for (int pivot = 0; pivot < tempPivotList [type].Count; pivot++){
-				Debug.Log ("             <color=orange>From frame " + pivots[type][pivot].fromFrame + " Pivot to: " + pivots [type] [pivot].toSeq.folder + " at Frame: " + pivots [type] [pivot].atFrame + "</color>");
+		if (pivots [0].Length == 0) {
+			Debug.LogWarning ("No Pivots Set Up For Sequence: " + folder);
+		} else {
+			Debug.Log ("Phew, finally done. We have pivots going to " + pivots.Length + " different sequences");
+			for (int type = 0; type < pivots.Length; type++) {
+				if (pivots [type] [0].toSeq == null || pivots [type] [0].atFrame == null) {
+					Debug.LogError ("Pivot Not Properly Set Up in Seq: " + folder);
+				} else {
+					Debug.Log ("<color=red>Type: " + type + ": " + sequencer.allSequences[pivots [type] [0].toSeq].folder + "</color>");
+					for (int pivot = 0; pivot < tempPivotList [type].Count; pivot++) {
+						if (pivots [type] [0].toSeq == null || pivots [type] [0].atFrame == null) {
+							Debug.LogError ("Pivot Not Properly Set Up in Seq: " + folder);
+						} else {
+							Debug.Log ("             <color=orange>From frame " + pivots [type] [pivot].fromFrame + " Pivot to: " + sequencer.allSequences[pivots [type] [pivot].toSeq].folder + " at Frame: " + pivots [type] [pivot].atFrame + "</color>");
+						}
+					}
+				}
 			}
 		}
 	}
@@ -103,12 +116,10 @@ public class Seq : MonoBehaviour {
 			frames = new Frame[sprites.Length];
 			for (int i = 0; i < frames.Length; i++) {
 				frames [i] = new Frame ();
-			}
-			for (int i = 0; i < frames.Length; i++) {
 				frames [i].frame = (Sprite) sprites [i];
 			}
 		} else {
-			Debug.LogError ("No Path Specified");
+			Debug.LogError ("Invalid Path Specified");
 		}
 	}
 	public IEnumerator IterateFrames(){
@@ -151,7 +162,7 @@ public class Frame{
 	[System.Serializable]
 public class Pivot{
 	public int fromFrame;
-	public Seq toSeq;
+	public int toSeq;
 	public int atFrame;
 	}
 	
